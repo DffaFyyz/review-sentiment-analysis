@@ -84,34 +84,3 @@ Example response:
   "confidence_score": "94.25%"
 }
 ```
-
-## Run Frontend
-
-The React frontend lives in `frontend/` and uses Vite, TypeScript, Tailwind CSS, React Router, Recharts, and Lucide icons.
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-By default, the frontend expects the Flask API at:
-
-```text
-http://localhost:5000
-```
-
-To override it, create `frontend/.env`:
-
-```text
-VITE_API_BASE_URL=http://localhost:5000
-```
-
-Frontend pages:
-
-- `/`: sentiment prediction tool
-- `/analysis`: EDA, preprocessing, feature extraction, model comparison, evaluation metrics, confusion matrix, and learning curve
-
-## Notes
-
-Run commands from the project root. The API and notebook expect the dataset and artifacts to be in this directory unless paths are changed in the notebook.
