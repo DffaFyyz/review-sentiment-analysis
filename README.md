@@ -84,3 +84,53 @@ Example response:
   "confidence_score": "94.25%"
 }
 ```
+
+## Deploy to Railway
+
+This repository is ready to deploy as a Railway Python service.
+
+Required runtime files:
+
+- `api.py`
+- `requirements.txt`
+- `Procfile`
+- `railway.json`
+- `runtime.txt`
+- `.python-version`
+- `sentiment_pipeline.pkl`
+- `model_metadata.json`
+
+Railway will install dependencies from `requirements.txt` and run the start command configured in `railway.json`:
+
+```bash
+gunicorn api:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120
+```
+
+Deployment steps:
+
+1. Push this repository to GitHub.
+2. Create a new Railway project.
+3. Choose `Deploy from GitHub repo`.
+4. Select this repository.
+5. Let Railway deploy with the detected Python/Nixpacks setup.
+6. Open the generated Railway domain and test `/health`.
+
+Useful Railway test URLs:
+
+```text
+https://YOUR-RAILWAY-DOMAIN/
+https://YOUR-RAILWAY-DOMAIN/health
+https://YOUR-RAILWAY-DOMAIN/metadata
+```
+
+Prediction test:
+
+```bash
+curl -X POST https://YOUR-RAILWAY-DOMAIN/predict \
+  -H "Content-Type: application/json" \
+  -d '{"text":"It was okay, not bad but not amazing either"}'
+```
+
+No required Railway environment variables are needed. Railway provides `PORT` automatically.
+
+If a separate frontend calls this API, set the frontend API base URL to the Railway domain.

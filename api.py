@@ -1,5 +1,6 @@
 import json
 import html
+import os
 import re
 from pathlib import Path
 
@@ -117,6 +118,19 @@ def predict_sentiment_label(text):
     }
 
 
+@app.route("/", methods=["GET"])
+def index():
+    metadata = MODEL_BUNDLE.get("metadata", {})
+    return jsonify(
+        {
+            "service": "review-sentiment-analysis-api",
+            "status": "ok",
+            "task": metadata.get("task", "binary"),
+            "endpoints": ["/health", "/metadata", "/predict"],
+        }
+    )
+
+
 @app.route("/health", methods=["GET"])
 def health():
     metadata = MODEL_BUNDLE.get("metadata", {})
@@ -182,4 +196,5 @@ def predict_sentiment():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)

@@ -1,2 +1,6 @@
 AGENTS.md
 Reviews.csv
+__pycache__/
+*.py[cod]
+.venv/
+.env
